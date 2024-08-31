@@ -67,6 +67,20 @@ cron.schedule("*/10 * * * *", async () => {
   }
 });
 
+export const getLast15Prices = asyncHandler(async (req, res) => {
+  const prices = await EthereumPrice.find().sort({ timestamp: -1 }).limit(15);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        prices,
+        "Last 15 Ethereum prices fetched Successfully."
+      )
+    );
+});
+
 export const getTotalExpenses = asyncHandler(async (req, res) => {
   const { address } = req.params;
 
@@ -90,17 +104,15 @@ export const getTotalExpenses = asyncHandler(async (req, res) => {
 
   const currentPrice = latestPriceEntry.price;
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        {
-          address,
-          totalExpensesInEther: totalExpenses,
-          currentPriceInINR: currentPrice,
-        },
-        "Total expenses fetched successfully."
-      )
-    );
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        address,
+        totalExpensesInEther: totalExpenses,
+        currentPriceInINR: currentPrice,
+      },
+      "Total expenses fetched successfully."
+    )
+  );
 });

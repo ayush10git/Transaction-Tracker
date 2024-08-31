@@ -8,6 +8,6 @@ app.use(express.static("public"));
 
 import transactionRouter from "./routes/transaction.route.js";
 
-app.use("/api/transactions", transactionRouter);
+app.use("/api/ethereum", transactionRouter);
 
 export { app }
